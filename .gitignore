@@ -1,5 +1,51 @@
+# Стандартные исключения для .NET
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+*.user
+*.vs/
+*.suo
+*.log
+
+# Исключения для JetBrains Rider
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Исключения для NuGet кэша
+packages/
+**/packages/
+
+# Исключения для временных файлов и артефактов сборки
+*.dll
+*.exe
+*.pdb
+*.cache
+*.lock.json
+*.nupkg
+
+# Исключения для файлов локализации
+*.resx
+
+# Исключения для Docker (если используете)
+.dockerignore
+docker-compose.override.yml
+local.settings.json
+
+# Исключения для тестов
+TestResults/
+coverage.*
+
+# Исключения для других инструментов
+.vscode/
+*.sqlite3
+*.tmp
+*.bak
+
+# Исключения для файлов логирования
+logs/
+*.log
+
+# Исключения для временных файлов операционной системы
+Thumbs.db
+Desktop.ini
