@@ -1,0 +1,83 @@
+﻿@model WeatherApp.Models.WeatherListViewModel
+@{
+    ViewData["Title"] = "Погодные данные";
+}
+
+<h1>Погодные данные</h1>
+
+<form method="get" asp-controller="Weather" asp-action="Index">
+    <div class="form-group">
+        <label for="year">Год:</label>
+        <input type="number" id="year" name="year" value="@Model.SelectedYear" class="form-control" min="0" max="2100"/>
+    </div>
+    <div class="form-group">
+        <label for="month">Месяц:</label>
+        <input type="number" id="month" name="month" value="@Model.SelectedMonth" class="form-control" min="0" max="12" />
+    </div>
+    <button type="submit" class="btn btn-primary">Фильтровать</button>
+</form>
+
+@if (Model.WeatherRecords.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Температура</th>
+                <th>Влажность</th>
+                <th>Точка росы</th>
+                <th>Давление</th>
+                <th>Направление ветра</th>
+                <th>Скорость ветра</th>
+                <th>Облачность</th>
+                <th>Нижн. граница облачности</th>
+                <th>Горизонт. видимость</th>
+                <th>Явления погоды</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.WeatherRecords)
+            {
+                <tr>
+                    <td>@record.Date</td>
+                    <td>@(record.Time?.ToString() ?? "")</td>
+                    <td>@(record.Temperature.HasValue ? $"{record.Temperature.Value} °C" : "")</td>
+                    <td>@(record.Humidity.HasValue ? $"{record.Humidity.Value} %" : "")</td>
+                    <td>@(record.DewPoint.HasValue ? record.DewPoint.Value : "")</td>
+                    <td>@(record.Pressure.HasValue ? $"{record.Pressure.Value} мм рт.ст." : "")</td>
+                    <td>@(string.IsNullOrEmpty(record.WindDirection) ? "" : record.WindDirection)</td>
+                    <td>@(record.WindSpeed.HasValue ? $"{record.WindSpeed.Value} м/с" : "")</td>
+                    <td>@(record.Cloudiness.HasValue ? $"{record.Cloudiness.Value} %" : "")</td>
+                    <td>@(record.LowerCloudLimit.HasValue ? $"{record.LowerCloudLimit.Value} м" : "")</td>
+                    <td>@(record.HorizontalVisibility.HasValue ? $"{record.HorizontalVisibility.Value} км" : "")</td>
+                    <td>@(string.IsNullOrEmpty(record.WeatherPhenomena) ? "" : record.WeatherPhenomena)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Пагинация -->
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" href="/Weather?page=@i&year=@Model.SelectedYear&month=@Model.SelectedMonth">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+else
+{
+    <p>Нет данных для отображения.</p>
+}
+
+<a href="@Url.Action("Index", "Home")">Вернуться на главную</a>
+
+<style>
+    .pagination .page-item {
+        display: inline-block;
+    }
+</style>

@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<h2>
+    Главная страница
+</h2>
+
+<ul>
+    <li><a href="@Url.Action("Index", "Weather")">Просмотр архивов</a></li>
+    <li><a href="@Url.Action("ShowUploadForm", "Weather")">Загрузка архивов</a></li>
+</ul>
+
+<style>
+    body {
+        margin: 20px;
+    }
+</style>

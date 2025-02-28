@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Загрузка архивов";
+}
+
+<h2>Загрузка архивов</h2>
+
+<!-- Отображение ошибок -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        <p class="alert-heading">Ошибка загрузки:</p>
+        @foreach (var key in ViewData.ModelState.Keys)
+        {
+            var errors = ViewData.ModelState[key]?.Errors;
+            if (errors != null && errors.Any())
+            {
+                foreach (var error in errors)
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            }
+        }
+    </div>
+}
+
+<form asp-action="upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="files" multiple/>
+    <button type="submit">Загрузить</button>
+</form>
+
+<a href="@Url.Action("Index", "Home")">Вернуться на главную</a>
